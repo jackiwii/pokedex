@@ -1,5 +1,6 @@
 import { useState } from "react";
 import type { Pokemon } from "../types/pokemon";
+import PokemonCardModal from "../modals/PokemonCardModal";
 
 
 type PokemonCardProps = {
@@ -7,16 +8,16 @@ type PokemonCardProps = {
 };
 
 export default function PokemonCard({ pokemon }: PokemonCardProps) {
-
-    const [isExpanded, setIsExpanded] = useState<boolean>(false);
+    
+    const [isModalOpen, setModalOpen] = useState<boolean>(false);
 
     return(
         <article className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition hover:shadow-md"
         >
             <button
                 type="button"
-                aria-expanded={isExpanded}
-                onClick={() => setIsExpanded(!isExpanded)}
+                aria-expanded={isModalOpen}
+                onClick={() => setModalOpen(true)}
                 className="flex w-full items-center gap-4 p-4 text-left"
                 >
                 <img
@@ -43,15 +44,13 @@ export default function PokemonCard({ pokemon }: PokemonCardProps) {
                     </div>
                 </div>
                 <span aria-hidden="true" className="text-xl text-slate-500">
-                    {isExpanded ? "-" : "+"}
+                    Details
                 </span>
             </button>
 
-            {isExpanded && (
-                <span>
-                    Expandido :D
-                </span>
-            )}
+            {isModalOpen && (
+                <PokemonCardModal onClose={() => setModalOpen(false)} pokemon={pokemon} />
+                )}
         </article>
     )
 }
